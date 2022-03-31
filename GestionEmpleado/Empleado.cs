@@ -20,7 +20,6 @@ namespace GestionEmpleado
             this.sueldo = sueldo;
             this.categoria = categoria;
             this.unDepartamento = d;
-            //this.unDepartamento.altaEmpleado(this);//incorpora el empleado al departamento
         }
 
         public float Sueldo { get => sueldo; set => sueldo = value; }

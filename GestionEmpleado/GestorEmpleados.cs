@@ -20,8 +20,6 @@ namespace GestionEmpleado
             
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
             Console.WriteLine("    Bienvenido al gestor de empleados de: ");
             Console.WriteLine();
             Console.WriteLine();
@@ -94,8 +92,11 @@ namespace GestionEmpleado
 
             } while (!salir);
             
-            Guardar(empleados);
-            Console.WriteLine("Hasta la próxima");
+            Guardar(empleados); 
+            Console.ForegroundColor = ConsoleColor.Red;
+            WriteAt("Hasta la próxima!!!!!!!", 40, 16);
+            Console.ResetColor();
+
         }
 
         public void Guardar(List<Empleado> empleados)
@@ -202,7 +203,7 @@ namespace GestionEmpleado
                 {
                     empleados.Add(new Comercial(dni, nombre, edad, estado,sueldo, categoria, d, auxiliar));
                 }
-                else if (auxiliar < 50)
+                else if (auxiliar < 50 && auxiliar > 0)
                 {
                     empleados.Add(new JefeDepartamento(dni, nombre, edad, estado, sueldo, categoria, d, auxiliar));
                 }
@@ -236,7 +237,7 @@ namespace GestionEmpleado
             WriteAt("*******************", 40, 0);
             WriteAt("Gestor empleado", 42, 1);
             WriteAt("*******************", 40, 2);
-            WriteAt("1.Anyadir nuevo departamento", 40, 3);
+            WriteAt("1.Añadir nuevo departamento", 40, 3);
             WriteAt("2.Eliminar un departamento", 40, 4);
             WriteAt("3.Anyadir nuevo empleado", 40, 5);
             WriteAt("4.Mostra datos de empleados", 40, 6);
@@ -498,14 +499,18 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("    MOSTRAR DATOS DE EMPLEADO:");
-            
+            Console.WriteLine();
+            Console.WriteLine();
+
             if (empleados.Count > 0)
             {
                 for (int i = 0; i < empleados.Count; i++)
                 {
-                    Console.WriteLine((i + 1) + "." + empleados[i]);
+                    Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
                     if (i % 24 == 23)
                     {
+                        Console.WriteLine();
+                        Console.WriteLine();
                         Console.WriteLine("    Pulsa intro para continuar");
                         Console.ReadLine();
                     }
@@ -515,6 +520,8 @@ namespace GestionEmpleado
             {
                 AvisarListaVacia();
             }
+            Console.WriteLine();
+            Console.WriteLine();
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
         }
