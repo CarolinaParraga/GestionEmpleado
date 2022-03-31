@@ -12,12 +12,14 @@ namespace GestionEmpleado
 
         public void Ejecutar()
         {
-            //List<Empleado> empleados = Cargar();
+            List<Empleado> empleados = Cargar();
             bool salir = false;
-            List<Empleado> empleados = new List<Empleado>();
+            //List<Empleado> empleados = new List<Empleado>();
 
             Empresa nuevaEmpresa = new Empresa("Inmobiliaria Vistas al Mar", "B76365789");
             
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("    Bienvenido al gestor de empleados de: ");
@@ -100,7 +102,7 @@ namespace GestionEmpleado
         {
             try
             {
-                StreamWriter fichero = new StreamWriter("empleados.txt", true);
+                StreamWriter fichero = new StreamWriter("empleados.txt");
                
                 fichero.WriteLine(empleados.Count);//cantidad de datos que hay en la lista
                 for (int i = 0; i < empleados.Count; i++)
@@ -124,16 +126,16 @@ namespace GestionEmpleado
                     }
                     else
                     {
-                        fichero.WriteLine("Vacío");
+                        fichero.WriteLine(0);
                     }
                     fichero.WriteLine();
                 }
                 fichero.Close();
             }
-            catch (IOException)
+            /*catch (IOException)
             {
                 Console.WriteLine("Error de escritura");
-            }
+            }*/
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
@@ -149,39 +151,70 @@ namespace GestionEmpleado
             {
                 return empleados;
             }
-            /*try
-            {*/
+            try
+            {
                 StreamReader fichero = new StreamReader("empleados.txt");
-                string linea;
-                //int cantidad = Convert.ToInt32(fichero.ReadLine());
-                do
+                int cantidad = Convert.ToInt32(fichero.ReadLine());
+                /*Console.WriteLine(cantidad);
+                string tipo = fichero.ReadLine();
+                Console.WriteLine(tipo);
+                string dni = fichero.ReadLine();
+                Console.WriteLine(dni);
+                string nombre = fichero.ReadLine();
+                Console.WriteLine(nombre);
+                int edad = Convert.ToInt32(fichero.ReadLine());
+                Console.WriteLine(edad);
+                string estado = fichero.ReadLine();
+                Console.WriteLine(estado);
+                float sueldo = Convert.ToSingle(fichero.ReadLine());
+                Console.WriteLine(sueldo);
+                string categoria = fichero.ReadLine();
+                Console.WriteLine(categoria);
+                string linea = fichero.ReadLine();
+                Console.WriteLine(linea);
+                string[] departamento = linea.Split(",");
+                string idDepartamento = departamento[0];
+                Console.WriteLine(idDepartamento);
+                string nombreDepartamento = departamento[1];
+                Console.WriteLine(nombreDepartamento);
+                int auxiliar = Convert.ToInt32(fichero.ReadLine());
+                Console.WriteLine(auxiliar);*/
+                
+
+                for (int i = 0; i < cantidad; i++)
                 {
-                    linea = fichero.ReadLine();
-                if (linea != null)
-                {
-                    string[] lineaSplit = linea.Split(",");
-                    string idDepartamento = lineaSplit[6];
-                    string nombreDepartamento = lineaSplit[7];
+                    string tipo = fichero.ReadLine();
+                    string dni = fichero.ReadLine();
+                    string nombre = fichero.ReadLine();
+                    int edad = Convert.ToInt32(fichero.ReadLine());
+                    string estado = fichero.ReadLine();
+                    float sueldo = Convert.ToSingle(fichero.ReadLine());
+                    string categoria = fichero.ReadLine();
+                    string linea = fichero.ReadLine();
+                    string[] departamento = linea.Split(",");
+                    string idDepartamento = departamento[0];
+                    string nombreDepartamento = departamento[1];
                     d = new Departamento(idDepartamento, nombreDepartamento);
-                    if (lineaSplit.Length == 8)
-                    {
-                        empleados.Add(new Empleado(lineaSplit[0], lineaSplit[1],
-                            Convert.ToInt32(lineaSplit[2]), lineaSplit[3], Convert.ToSingle(lineaSplit[4]),
-                            lineaSplit[5], d));
+                    int auxiliar = Convert.ToInt32(fichero.ReadLine());
+                    string separador = fichero.ReadLine();
 
-
-                    }
+                if (auxiliar >= 50)
+                {
+                    empleados.Add(new Comercial(dni, nombre, edad, estado,sueldo, categoria, d, auxiliar));
                 }
-                    /*int ventas = Convert.ToInt32(fichero.ReadLine());
-                    int antiguedad = Convert.ToInt32(fichero.ReadLine());
-                    string separador = fichero.ReadLine();*/
-
-                   
-
+                else if (auxiliar < 50)
+                {
+                    empleados.Add(new JefeDepartamento(dni, nombre, edad, estado, sueldo, categoria, d, auxiliar));
                 }
-                while (linea != null);
+
+                else
+                {
+                    empleados.Add(new Empleado(dni, nombre, edad, estado, sueldo, categoria, d));
+                }
+
+            }
                 fichero.Close();
-            /*}
+            }
             catch (IOException x)
             {
                 Console.WriteLine("Error DOS");
@@ -190,7 +223,7 @@ namespace GestionEmpleado
             catch (Exception e)
             {
                 Console.WriteLine("Error UNO " + e.Message);
-            }*/
+            }
 
 
             return empleados;
