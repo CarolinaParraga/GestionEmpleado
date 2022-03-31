@@ -12,9 +12,9 @@ namespace GestionEmpleado
 
         public void Ejecutar()
         {
-            List<Empleado> empleados = Cargar();
+            //List<Empleado> empleados = Cargar();
             bool salir = false;
-            //List<Empleado> empleados = new List<Empleado>();
+            List<Empleado> empleados = new List<Empleado>();
 
             Empresa nuevaEmpresa = new Empresa("Inmobiliaria Vistas al Mar", "B76365789");
             
@@ -100,11 +100,12 @@ namespace GestionEmpleado
         {
             try
             {
-                StreamWriter fichero = File.CreateText("empleados.txt");
+                StreamWriter fichero = new StreamWriter("empleados.txt", true);
                
                 fichero.WriteLine(empleados.Count);//cantidad de datos que hay en la lista
                 for (int i = 0; i < empleados.Count; i++)
                 {
+                    fichero.WriteLine(empleados[i].GetType().Name);
                     fichero.WriteLine(empleados[i].Dni);
                     fichero.WriteLine(empleados[i].Nombre);
                     fichero.WriteLine(empleados[i].Edad);
@@ -120,6 +121,10 @@ namespace GestionEmpleado
                     else if (empleados[i] is JefeDepartamento)
                     {
                         fichero.WriteLine(((JefeDepartamento)empleados[i]).Antiguedad);
+                    }
+                    else
+                    {
+                        fichero.WriteLine("Vacío");
                     }
                     fichero.WriteLine();
                 }
