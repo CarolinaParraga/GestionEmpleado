@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
+    //clases que almacena los datos de la empresa
+    //la empresa está compuesta por máximo 5 departamentos que se inicializan en el constructor
     class Empresa
     {
         public const int MAXIMO_DEPARTAMENTOS = 5;
@@ -28,7 +30,7 @@ namespace GestionEmpleado
         public string Nombre { get => nombre; set => nombre = value; }
         public string Cif { get => cif; set => cif = value; }
         public tipoDireccion Direccion { get => direccion; set => direccion = value; }
-        internal Departamento[] Departamentos { get => departamentos; set => departamentos = value; }
+        public Departamento[] Departamentos { get => departamentos; set => departamentos = value; }
 
         public Empresa(string nombre, string cif)
         {
@@ -75,12 +77,11 @@ namespace GestionEmpleado
                 {
                     i++;
                 }
-
             }
 
             if (encontrado)
             {
-                for (int j = i; j < contadorDepartamentos; j++)
+                for (int j = i; j < contadorDepartamentos - 1; j++)
                 {
                     departamentos[j] = departamentos[j + 1];
                 }

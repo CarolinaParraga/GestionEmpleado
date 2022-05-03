@@ -34,16 +34,16 @@ namespace GestionEmpleado
 
 
 
-            nuevaEmpresa.Departamentos[0] = new Departamento("D1", "Contabilidad");
+            /*nuevaEmpresa.Departamentos[0] = new Departamento("D-1", "Contabilidad");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[0]);
-            nuevaEmpresa.Departamentos[1] = new Departamento("D2", "Ventas");
+            nuevaEmpresa.Departamentos[1] = new Departamento("D-2", "Ventas");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[1]);
-            nuevaEmpresa.Departamentos[2] = new Departamento("D3", "Alquileres");
+            nuevaEmpresa.Departamentos[2] = new Departamento("D-3", "Alquileres");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[2]);
-            nuevaEmpresa.Departamentos[3] = new Departamento("D4", "Marketing");
+            nuevaEmpresa.Departamentos[3] = new Departamento("D-4", "Marketing");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[3]);
-            nuevaEmpresa.Departamentos[4] = new Departamento("D5", "Administración");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[4]);
+            nuevaEmpresa.Departamentos[4] = new Departamento("D-5", "Administración");
+            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[4]);*/
             //nuevaEmpresa.MostrarDepartamentos();
             
 
@@ -263,22 +263,42 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("    AÑADIR DEPARTAMENTO");
-            string id = PedirCadenaNoVacia("ID: ");
-            string nombre = PedirCadenaNoVacia("nombre departamento: ");
-            Departamento d = new Departamento(id, nombre);
-
             
-            if (nuevaEmpresa.NuevoDepartamento(d))
+      
+            string id;
+            string nombre;
+            Departamento d;
+            try
             {
-                Console.WriteLine("    El departamento se ha añadido correctamente a la empresa");
-                
+                do
+                {
+                    id = PedirCadenaNoVacia("ID (introduzca la letra D más un dígito" +
+                    "separados por un guión, ejemplo 'D-7'): ").ToLower();
+                    if (CodigoDepartamento(id))
+                    {
+                        nombre = PedirCadenaNoVacia("nombre departamento: ").ToLower();
+                        d = new Departamento(id, nombre);
+                        if (nuevaEmpresa.NuevoDepartamento(d))
+                        {
+                            Console.WriteLine("    El departamento se ha añadido correctamente a la empresa");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("    No se pueden añadir más departamentos a la empresa");
+                        }
+                    }
+                } while (!CodigoDepartamento(id));
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("    El departamento se ha añadido correctamente a la empresa");
+
+                Console.WriteLine("    ERROR: {0} \n    El código de departemento no es correcto ", 
+                    e.Message);
             }
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
+
         }
 
         //elimina un departemento de la empresa
@@ -289,27 +309,43 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("    ELIMINAR DEPARTAMENTO");
-            string id = PedirCadenaNoVacia("ID: ");
-            string nombre = PedirCadenaNoVacia("nombre departamento: ");
-            Departamento d = new Departamento(id, nombre);
-
-
-            if (nuevaEmpresa.QuitarDepartamento(d))
-            { 
-                Console.WriteLine("    El departamento se ha eliminado correctamente");
-                nuevaEmpresa.MostrarDepartamentos();
-            }
-            else
+            Console.WriteLine("    Introduzca los datos del departamente que quiere eliminar.");
+            Console.WriteLine();
+            nuevaEmpresa.MostrarDepartamentos();
+            string id;
+            string nombre;
+            Departamento d;
+            try
             {
-                Console.WriteLine("    El departamento no se ha eliminado correctamente");
+                do
+                {
+                    id = PedirCadenaNoVacia("ID (introduzca la letra D más un dígito" +
+                    "separados por un guión, ejemplo 'D-7'): ").ToLower();
+                    if (CodigoDepartamento(id))
+                    {
+                        nombre = PedirCadenaNoVacia("nombre departamento: ").ToLower();
+                        d = new Departamento(id, nombre);
+                        if (nuevaEmpresa.QuitarDepartamento(d))
+                        {
+                            Console.WriteLine("    El departamento se ha eliminado correctamente");
+                            nuevaEmpresa.MostrarDepartamentos();
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("    El departamento no se ha eliminado correctamente");
+                        }
+                    }
+                } while (!CodigoDepartamento(id));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("    ERROR: {0} \n    El código de departemento no es correcto ",
+                     e.Message);
             }
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
         }
-
-        
-
-     
 
         private void AnyadirEmpleado(List<Empleado> empleados, Empresa nuevaEmpresa)
         {
@@ -845,7 +881,22 @@ namespace GestionEmpleado
             return repetido;
         }
 
-        
+        public bool CodigoDepartamento(string codigo)
+        {
+            bool codigo_OK = false;
+            string[] caracteresCodigo = codigo.Split("-");
+            int digito = Int32.Parse(caracteresCodigo[1]);
+            
+            if (caracteresCodigo[0] == "d" 
+                && digito < 10 && digito > 0)
+            {
+                codigo_OK = true;
+            }
+            return codigo_OK;
+            
+        }
+
+
 
 
 
