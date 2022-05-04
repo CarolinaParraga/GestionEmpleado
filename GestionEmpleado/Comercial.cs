@@ -20,7 +20,18 @@ namespace GestionEmpleado
         }
 
         public float Comision { get => comision; set => comision = value; }
-        public int Ventas { get => ventas; set => ventas = value; }
+        public int Ventas
+        {
+            get { return ventas; }
+            set
+            {
+                if (value <= 100 && value >= 0)
+                {
+
+                }
+                ventas = value; 
+            }
+        }
         
         public void CalcularComision()
         {
@@ -60,7 +71,7 @@ namespace GestionEmpleado
                 impuestos = 0;
             }
 
-            resultado = sueldoTotal - impuestos;
+            resultado = (sueldoTotal + impuestos)/14;
 
             return resultado;
         }

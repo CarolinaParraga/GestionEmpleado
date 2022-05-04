@@ -11,7 +11,20 @@ namespace GestionEmpleado
         private int antiguedad;
         private int plus;
 
-        public int Antiguedad { get => antiguedad; set => antiguedad = value; }
+        public int Antiguedad
+        {
+            get 
+            {
+                return antiguedad; 
+            }
+            set 
+            {
+                if (value < 50 && value >= 0)
+                {
+                    antiguedad = value;
+                }
+            }
+        }
         public int Plus { get => plus; set => plus = value; }
         
         public JefeDepartamento(string dni, string nombre, int edad,
@@ -59,7 +72,7 @@ namespace GestionEmpleado
                 impuestos = 0;
             }
 
-            resultado = sueldoTotal + impuestos;
+            resultado = (sueldoTotal + impuestos)/14;
 
             return resultado;
         }

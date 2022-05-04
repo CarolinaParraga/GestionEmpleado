@@ -13,10 +13,48 @@ namespace GestionEmpleado
         protected int edad;
         protected string estado;
 
-        public string Dni { get => dni; set => dni = value; }
+        public string Dni 
+        {
+            get
+            {
+                return dni;
+            }
+            set 
+            {
+                if (value.ToString().Length == 9)
+                {
+                    dni = value;
+                }
+            }
+        }
         public string Nombre { get => nombre; set => nombre = value; }
-        public int Edad { get => edad; set => edad = value; }
-        public string Estado { get => estado; set => estado = value; }
+        public int Edad 
+        {
+            get 
+            { 
+                return edad; 
+            }
+            set
+            {
+                if (value <= 99 && value >= 18)
+                {
+                    edad = value;
+                }
+
+            }
+        }
+        public string Estado 
+        {
+            get { return estado; }
+            set 
+            {
+                if (value == "soltera" || value == "casada" || value == "divorcida" || value == "viuda")
+                {
+
+                }
+                estado = value; 
+            }
+        }
 
         public Persona(string dni, string nombre, int edad, string estado)
         {
@@ -28,7 +66,7 @@ namespace GestionEmpleado
 
         public override string ToString()
         {
-            return GetType().Name + "," + dni + "," + nombre + "," + edad + "," + estado + ",";
+            return GetType().Name + "-" + dni + "-" + nombre + "-" + edad + "-" + estado + "-";
         }
 
         public virtual bool Contiene(string texto)

@@ -6,23 +6,36 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
-    class Empleado: Persona
+    class Empleado : Persona
     {
         private float sueldo;
         private string categoria;
         private Departamento unDepartamento;//asociacion
 
-        public Empleado(string dni, string nombre, int edad, 
+        public Empleado(string dni, string nombre, int edad,
             string estado, float sueldo, string categoria, Departamento d)
             : base(dni, nombre, edad, estado)
-            
+
         {
             this.sueldo = sueldo;
             this.categoria = categoria;
             this.unDepartamento = d;
         }
 
-        public float Sueldo { get => sueldo; set => sueldo = value; }
+        //public float Sueldo { get => sueldo; set => sueldo = value; }
+
+        public float Sueldo
+        {
+            get { return sueldo; }
+            set
+            {
+                if (value <= 30000 && value >= 12000)
+                {
+
+                }
+                sueldo = value;
+            }
+        }
         public string Categoria { get => categoria; set => categoria = value; }
         public Departamento UnDepartamento { get => unDepartamento; set => unDepartamento = value; }
 
@@ -48,7 +61,7 @@ namespace GestionEmpleado
                 impuestos = 0;
             }
 
-            resultado = Sueldo + impuestos;
+            resultado = (Sueldo + impuestos)/14;
 
             return resultado;
         }
@@ -69,7 +82,8 @@ namespace GestionEmpleado
 
         public override string ToString()
         {
-            return base.ToString() + Sueldo + "," + Categoria + "," + UnDepartamento + ",";
+            return base.ToString() + Sueldo + "-" + Categoria + "-" + UnDepartamento + "-";
         }
     }
 }
+
