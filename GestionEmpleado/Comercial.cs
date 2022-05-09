@@ -78,7 +78,7 @@ namespace GestionEmpleado
 
         public override string ToString()
         {
-            return base.ToString() + Ventas; 
+            return base.ToString() + Ventas +"\n"; 
         }
     }
 }

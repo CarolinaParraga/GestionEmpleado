@@ -66,7 +66,8 @@ namespace GestionEmpleado
 
         public override string ToString()
         {
-            return GetType().Name + "-" + dni + "-" + nombre + "-" + edad + "-" + estado + "-";
+            return GetType().Name + "\n    " + dni + "\n    " 
+                + nombre + "\n    " + edad + "\n    " + estado + "\n    ";
         }
 
         public virtual bool Contiene(string texto)

@@ -133,10 +133,6 @@ namespace GestionEmpleado
                 }
                 fichero.Close();
             }
-            /*catch (IOException)
-            {
-                Console.WriteLine("Error de escritura");
-            }*/
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
@@ -156,32 +152,7 @@ namespace GestionEmpleado
             {
                 StreamReader fichero = new StreamReader("empleados.txt");
                 int cantidad = Convert.ToInt32(fichero.ReadLine());
-                /*Console.WriteLine(cantidad);
-                string tipo = fichero.ReadLine();
-                Console.WriteLine(tipo);
-                string dni = fichero.ReadLine();
-                Console.WriteLine(dni);
-                string nombre = fichero.ReadLine();
-                Console.WriteLine(nombre);
-                int edad = Convert.ToInt32(fichero.ReadLine());
-                Console.WriteLine(edad);
-                string estado = fichero.ReadLine();
-                Console.WriteLine(estado);
-                float sueldo = Convert.ToSingle(fichero.ReadLine());
-                Console.WriteLine(sueldo);
-                string categoria = fichero.ReadLine();
-                Console.WriteLine(categoria);
-                string linea = fichero.ReadLine();
-                Console.WriteLine(linea);
-                string[] departamento = linea.Split(",");
-                string idDepartamento = departamento[0];
-                Console.WriteLine(idDepartamento);
-                string nombreDepartamento = departamento[1];
-                Console.WriteLine(nombreDepartamento);
-                int auxiliar = Convert.ToInt32(fichero.ReadLine());
-                Console.WriteLine(auxiliar);*/
                 
-
                 for (int i = 0; i < cantidad; i++)
                 {
                     string tipo = fichero.ReadLine();
@@ -191,8 +162,8 @@ namespace GestionEmpleado
                     string estado = fichero.ReadLine();
                     float sueldo = Convert.ToSingle(fichero.ReadLine());
                     string categoria = fichero.ReadLine();
-                    string linea = fichero.ReadLine();
-                    string[] departamento = linea.Split(",");
+                    string lineaDepartamento = fichero.ReadLine();
+                    string[] departamento = lineaDepartamento.Split(",");
                     string idDepartamento = departamento[0];
                     string nombreDepartamento = departamento[1];
                     d = new Departamento(idDepartamento, nombreDepartamento);
@@ -216,16 +187,11 @@ namespace GestionEmpleado
             }
                 fichero.Close();
             }
-            catch (IOException x)
-            {
-                Console.WriteLine("Error DOS");
-                Console.WriteLine("Error UNO " + x.Message);
-            }
+            
             catch (Exception e)
             {
-                Console.WriteLine("Error UNO " + e.Message);
+                Console.WriteLine("Error: {0}", e.Message);
             }
-
 
             return empleados;
         }
@@ -239,7 +205,7 @@ namespace GestionEmpleado
             WriteAt("*******************", 40, 2);
             WriteAt("1.Añadir nuevo departamento", 40, 3);
             WriteAt("2.Eliminar un departamento", 40, 4);
-            WriteAt("3.Anyadir nuevo empleado", 40, 5);
+            WriteAt("3.Añadir nuevo empleado", 40, 5);
             WriteAt("4.Mostra datos de empleados", 40, 6);
             WriteAt("5.Buscar empleado", 40, 7);
             WriteAt("6.Modificar empleado", 40, 8);
@@ -273,7 +239,7 @@ namespace GestionEmpleado
                 do
                 {
                     id = PedirCadenaNoVacia("ID (introduzca la letra D más un dígito" +
-                    "separados por un guión, ejemplo 'D-7'): ").ToLower();
+                        " del 1 al 5 separados por un guión, ejemplo 'D-7'): ").ToLower();
                     if (CodigoDepartamento(id))
                     {
                         nombre = PedirCadenaNoVacia("nombre departamento: ").ToLower();
@@ -290,11 +256,10 @@ namespace GestionEmpleado
                     }
                 } while (!CodigoDepartamento(id));
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                Console.WriteLine("    ERROR: {0} \n    El código de departemento no es correcto ", 
-                    e.Message);
+                Console.WriteLine("    ERROR: El código de departemento no es correcto.");
             }
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
@@ -320,7 +285,7 @@ namespace GestionEmpleado
                 do
                 {
                     id = PedirCadenaNoVacia("ID (introduzca la letra D más un dígito" +
-                    "separados por un guión, ejemplo 'D-7'): ").ToLower();
+                        " del 1 al 5 separados por un guión, ejemplo 'D-7'): ").ToLower();
                     if (CodigoDepartamento(id))
                     {
                         nombre = PedirCadenaNoVacia("nombre departamento: ").ToLower();
@@ -372,7 +337,7 @@ namespace GestionEmpleado
                     {
                         if (ExisteDNI(empleados, dni))
                         {
-                            Console.WriteLine("Error. DNI repetido. Prueba de nuevo.");
+                            Console.WriteLine("    Error. DNI repetido. Prueba de nuevo.");
                             dniOK = false;
                         }
                     }
@@ -384,14 +349,13 @@ namespace GestionEmpleado
                
             } while (!dniOK || dni.Length != 9);
 
-            //string dni = PedirCadenaNoVacia("DNI: ");
             string nombre = PedirCadenaNoVacia("nombre: ");
             int edad = PedirEntero("edad:", 18, 99);
             string estado;
             
             do
             {
-                 estado = PedirCadenaNoVacia("estado: ");
+                 estado = PedirCadenaNoVacia("estado de la persona: ");
                 if (estado != "soltera" && estado != "casada"
                     && estado != "divorciada" && estado != "viuda")
                 {
@@ -401,7 +365,7 @@ namespace GestionEmpleado
             } while (estado != "soltera" && estado != "casada"
                     && estado != "divorciada" && estado != "viuda");
 
-            float sueldo = PedirFLoat("sueldo: ", 12000, 30000);
+            float sueldo = PedirFLoat("sueldo entre 12000€ y 30000€: ", 12000, 30000);
             string categoria = PedirCadenaNoVacia("categoría: ");
             Console.WriteLine();
 
@@ -428,14 +392,14 @@ namespace GestionEmpleado
                     }
                     else if (tipoEmpleado == "c")
                     {
-                        int ventas = PedirEntero("ventas", 50, 100);
+                        int ventas = PedirEntero("ventas: ", 50, 100);
                         aux = new Comercial(dni, nombre, edad, estado,
                            sueldo, categoria, d, ventas);
                         empleados.Add(aux);
                     }
                     else
                     {
-                        int antiguedad = PedirEntero("antigüedad", 0, 49);
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
                         aux = new JefeDepartamento(dni, nombre, edad, estado,
                             sueldo, categoria, d, antiguedad);
                         empleados.Add(aux);
@@ -453,14 +417,14 @@ namespace GestionEmpleado
                     }
                     else if (tipoEmpleado == "c")
                     {
-                        int ventas = PedirEntero("ventas", 50, 100);
+                        int ventas = PedirEntero("ventas: ", 50, 100);
                         aux = new Comercial(dni, nombre, edad, estado,
                            sueldo, categoria, d, ventas);
                         empleados.Add(aux);
                     }
                     else
                     {
-                        int antiguedad = PedirEntero("antigüedad", 0, 49);
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
                         aux = new JefeDepartamento(dni, nombre, edad, estado,
                             sueldo, categoria, d, antiguedad);
                         empleados.Add(aux);
@@ -478,14 +442,14 @@ namespace GestionEmpleado
                     }
                     else if (tipoEmpleado == "c")
                     {
-                        int ventas = PedirEntero("ventas", 50 , 100);
+                        int ventas = PedirEntero("ventas: ", 50 , 100);
                         aux = new Comercial(dni, nombre, edad, estado,
                            sueldo, categoria, d, ventas);
                         empleados.Add(aux);
                     }
                     else
                     {
-                        int antiguedad = PedirEntero("antigüedad", 0, 49);
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
                         aux = new JefeDepartamento(dni, nombre, edad, estado,
                             sueldo, categoria, d, antiguedad);
                         empleados.Add(aux);
@@ -503,14 +467,14 @@ namespace GestionEmpleado
                     }
                     else if (tipoEmpleado == "c")
                     {
-                        int ventas = PedirEntero("ventas", 50, 100);
+                        int ventas = PedirEntero("ventas: ", 50, 100);
                         aux = new Comercial(dni, nombre, edad, estado,
                            sueldo, categoria, d, ventas);
                         empleados.Add(aux);
                     }
                     else
                     {
-                        int antiguedad = PedirEntero("antigüedad", 0, 49);
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
                         aux = new JefeDepartamento(dni, nombre, edad, estado,
                             sueldo, categoria, d, antiguedad);
                         empleados.Add(aux);
@@ -528,14 +492,14 @@ namespace GestionEmpleado
                     }
                     else if (tipoEmpleado == "c")
                     {
-                        int ventas = PedirEntero("ventas", 50, 100);
+                        int ventas = PedirEntero("ventas: ", 50, 100);
                         aux = new Comercial(dni, nombre, edad, estado,
                            sueldo, categoria, d, ventas);
                         empleados.Add(aux);
                     }
                     else
                     {
-                        int antiguedad = PedirEntero("antigüedad", 0, 49);
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
                         aux = new JefeDepartamento(dni, nombre, edad, estado,
                             sueldo, categoria, d, antiguedad);
                         empleados.Add(aux);
@@ -598,7 +562,7 @@ namespace GestionEmpleado
 
                 for (int i = 0; i < empleados.Count; i++)
                 {
-                    if (empleados[i].Nombre.Contains(textoBuscar))
+                    if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
                     {
                         Console.WriteLine((i + 1) + "." + empleados[i]);
                         encontrado = true;
@@ -629,61 +593,63 @@ namespace GestionEmpleado
             if (empleados.Count > 0)
             {
                 int tamanyo = empleados.Count;
-                int registro = PedirEntero("registro a modificar", 1, tamanyo) - 1;
+                int registro = PedirEntero("registro a modificar: ", 1, tamanyo) - 1;
                 if (registro >= 0 && registro < empleados.Count)
                 {
-                    Console.WriteLine("    DNI" + empleados[registro].Dni);
-                    string dni = PedirDato("dni o intro para continuar");
-                    if (dni != " ")
+                    Console.WriteLine("    DNI: " + empleados[registro].Dni);
+                    string dni = PedirDato("dni o intro para continuar: ");
+                    if (dni != "")
                     {
                         empleados[registro].Dni = dni;
                     }
-                    Console.WriteLine("    Nombre" + empleados[registro].Nombre);
-                    string nombre = PedirDato("nombre o intro para continuar");
-                    if (nombre != " ")
+                  
+                    Console.WriteLine("    Nombre: " + empleados[registro].Nombre);
+                    string nombre = PedirDato("nombre o intro para continuar: ");
+                    if (nombre != "")
                     {
                         empleados[registro].Nombre = nombre;
                     }
-                    Console.WriteLine("    Edad" + empleados[registro].Edad);
-                    int edad = PedirEntero("año o intro para continuar", 18, 99);
-                    if (edad < 100 && edad > 17)
+                    Console.WriteLine("    Edad: " + empleados[registro].Edad);
+                    int  edad = PedirEntero("edad:", 18, 99);
+                    if (edad > 17 && edad < 100)
                     {
-                        empleados[registro].Edad = Convert.ToInt32(edad);
+                        empleados[registro].Edad =  edad;
                     }
-                    Console.WriteLine("    Estado" + empleados[registro].Estado);
-                    string estado = PedirDato("estado o intro para continuar");
-                    if (estado != " ")
+                    Console.WriteLine("    Estado: " + empleados[registro].Estado);
+                    string estado = PedirDato("estado o intro para continuar: ");
+                    if (estado != "")
                     {
                         empleados[registro].Estado = estado;
                     }
-                    Console.WriteLine("    Departamento" + empleados[registro].UnDepartamento);
-                    string id = PedirDato("id del Departamento o intro para continuar");
-                    if (id != " ")
+                    Console.WriteLine("    Departamento: " + empleados[registro].UnDepartamento);
+                    string id = PedirDato("id del Departamento o intro para continuar: ");
+                    if (id != "")
                     {
                         empleados[registro].UnDepartamento.Id = id;
                     }
-                    string nombreDepartamento = PedirDato("nombre del Departamento o intro para continuar");
-                    if (nombreDepartamento != " ")
+                    string nombreDepartamento = PedirDato("nombre del Departamento o intro para continuar: ");
+                    if (nombreDepartamento != "")
                     {
                         empleados[registro].UnDepartamento.Nombre = nombreDepartamento;
                     }
-                    //lenguajes[registro] is Imperativo
+           
                     if (empleados[registro].GetType() == typeof(Comercial))
                     {
-                        Console.WriteLine("    Ventas" + ((Comercial)empleados[registro]).Ventas);
-                        string ventas = PedirDato("ventas o intro para continuar");
-                        if (ventas != " ")
+                        Console.WriteLine("    Ventas: " + ((Comercial)empleados[registro]).Ventas);
+                        int ventas = PedirEntero("ventas", 50, 100);
+
+                        if (ventas < 101 && ventas > 49)
                         {
-                            ((Comercial)empleados[registro]).Ventas = Convert.ToInt32(ventas);
+                            ((Comercial)empleados[registro]).Ventas = ventas;
                         }
                     }
                     if (empleados[registro] is JefeDepartamento)
                     {
-                        Console.WriteLine("    Antigüedad" + ((JefeDepartamento)empleados[registro]).Antiguedad);
-                        string antiguedad = PedirDato("antigüedad o intro para continuar");
-                        if (antiguedad != "")
+                        Console.WriteLine("    Antigüedad: " + ((JefeDepartamento)empleados[registro]).Antiguedad);
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
+                        if (antiguedad < 50 && antiguedad > -1)
                         {
-                            ((JefeDepartamento)empleados[registro]).Antiguedad = Convert.ToInt32(antiguedad);
+                            ((JefeDepartamento)empleados[registro]).Antiguedad = antiguedad;
                         }
                     }
                 }

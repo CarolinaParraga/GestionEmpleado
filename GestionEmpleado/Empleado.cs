@@ -82,7 +82,8 @@ namespace GestionEmpleado
 
         public override string ToString()
         {
-            return base.ToString() + Sueldo + "-" + Categoria + "-" + UnDepartamento + "-";
+            return base.ToString() + Sueldo + "\n    " + Categoria
+                + "\n    " + UnDepartamento + "\n    ";
         }
     }
 }
