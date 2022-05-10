@@ -65,7 +65,7 @@ namespace GestionEmpleado
                         EliminarDepartamento(nuevaEmpresa);
                         break;
                     case "3":
-                        AnyadirEmpleado(empleados, nuevaEmpresa);
+                        AnyadirEmpleadoDos(empleados, nuevaEmpresa);
                         break;
                     case "4":
                         Mostrar(empleados);
@@ -883,6 +883,108 @@ namespace GestionEmpleado
             }
             return codigo_OK;
             
+        }
+
+        private void AnyadirEmpleadoDos(List<Empleado> empleados, Empresa nuevaEmpresa)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("    AÑADIR EMPLEADO");
+            Empleado aux;//para crear un empleado
+            Departamento d;//para asociar al departemento
+            bool dniOK;
+
+            string tipoEmpleado = PedirDato(" el tipo de empleado (e) Empleado, " +
+                "(c) Comercial, (j) Jefe de Departamento: ").ToLower();
+            string dni;
+            do
+            {
+                dniOK = true;
+                dni = PedirCadenaNoVacia("DNI: ");
+
+                if (dni.Length == 9)
+                {
+                    for (int i = 0; i < empleados.Count; i++)
+                    {
+                        if (ExisteDNI(empleados, dni))
+                        {
+                            Console.WriteLine("    Error. DNI repetido. Prueba de nuevo.");
+                            dniOK = false;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("    Formato incorrecto, introduce 8 dígitos y una letra");
+                }
+
+            } while (!dniOK || dni.Length != 9);
+
+            string nombre = PedirCadenaNoVacia("nombre: ");
+            int edad = PedirEntero("edad:", 18, 99);
+            string estado;
+
+            do
+            {
+                estado = PedirCadenaNoVacia("estado de la persona: ");
+                if (estado != "soltera" && estado != "casada"
+                    && estado != "divorciada" && estado != "viuda")
+                {
+                    Console.WriteLine("    Debe introducir uno de los siguientes estados: " +
+                        "soltera, casada, divorciada o viuda");
+                }
+            } while (estado != "soltera" && estado != "casada"
+                    && estado != "divorciada" && estado != "viuda");
+
+            float sueldo = PedirFLoat("sueldo entre 12000€ y 30000€: ", 12000, 30000);
+            string categoria = PedirCadenaNoVacia("categoría: ");
+            Console.WriteLine();
+
+            //muestra los datos del departamento para incluirlos en el empleado
+            Console.WriteLine("    Estos son los departamentos de la empresa:");
+            Console.WriteLine();
+            nuevaEmpresa.MostrarDepartamentos();
+            Console.WriteLine();
+            int posicion = PedirEntero("posición del departamento del nuevo empleado: ", 1, 5) - 1;
+            string resultadoDepartamento = nuevaEmpresa.DevolverDepartamento(posicion);
+            string[] datosDepartamento = resultadoDepartamento.Split(",");
+            string id = datosDepartamento[0];
+            string nombreDepartamento = datosDepartamento[1];
+
+            
+                   
+                    d = new Departamento(id, nombreDepartamento);
+                    if (tipoEmpleado == "e")
+                    {
+                        aux = new Empleado(dni, nombre, edad, estado,
+                        sueldo, categoria, d);
+                        empleados.Add(aux);
+                    }
+                    else if (tipoEmpleado == "c")
+                    {
+                        int ventas = PedirEntero("ventas: ", 50, 100);
+                        aux = new Comercial(dni, nombre, edad, estado,
+                           sueldo, categoria, d, ventas);
+                        empleados.Add(aux);
+                    }
+                    else
+                    {
+                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
+                        aux = new JefeDepartamento(dni, nombre, edad, estado,
+                            sueldo, categoria, d, antiguedad);
+                        empleados.Add(aux);
+                    }
+                  
+                
+            
+
+            Guardar(empleados);
+
+            Console.Write("    Empleado añadido, pulse enter para continuar: ");
+            Console.ReadLine();
+
         }
 
 

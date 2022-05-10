@@ -98,6 +98,34 @@ namespace GestionEmpleado
             }
         }
 
+        //método para añadir departamento al empleado
+        public string DevolverDepartamento(int posicion)
+        {
+            string resultado = ""; 
+            for (int i = 0; i < departamentos.Length; i++)
+            {
+                switch (posicion)
+                {
+                    case 0:
+                        resultado = departamentos[0].ToString();
+                        break;
+                    case 1:
+                        resultado = departamentos[1].ToString();
+                        break;
+                    case 2:
+                        resultado = departamentos[2].ToString();
+                        break;
+                    case 3:
+                        resultado = departamentos[3].ToString();
+                        break;
+                    case 4:
+                        resultado = departamentos[4].ToString();
+                        break;
+                }
+            }
+            return resultado;
+        }
+
         public override string ToString()
         {
             
