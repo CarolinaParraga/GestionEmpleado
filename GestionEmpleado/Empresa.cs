@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace GestionEmpleado
         {
             this.nombre = nombre;
             this.cif = cif;
-            departamentos = new Departamento[MAXIMO_DEPARTAMENTOS];//almacena los departamento de la empresa
+            departamentos = CargarDepartamentos();//almacena los departamento de la empresa
             contadorDepartamentos = 0;
             direccion.calle = "Avenida Las Flores";
             direccion.numero = 10;
@@ -125,6 +126,86 @@ namespace GestionEmpleado
             }
             return resultado;
         }
+
+        public Departamento[] CargarDepartamentos()
+        {
+            Departamento[] departamentos = new Departamento[MAXIMO_DEPARTAMENTOS];
+            int contador = 0;
+            
+            string directorio = @".\Archivos";
+
+            if (Directory.Exists(directorio))
+            {
+                if (!File.Exists("Guardar.txt"))
+                {
+                    return departamentos;
+                }
+                try
+                {
+                    StreamReader fichero = new StreamReader(@".\Archivos\Guardar.txt");
+                    string linea;
+                    string idDepartamento;
+                    string nombreDepartamento;
+
+                    do
+                    {
+                        linea = fichero.ReadLine();
+                        if (linea != null)
+                        {
+                            string[] datosLinea = linea.Split(",");
+                            idDepartamento = datosLinea[0];
+                            nombreDepartamento = datosLinea[1];
+                            departamentos[contador] = new Departamento(idDepartamento, nombreDepartamento);
+                            contador++;
+                        }
+
+                    }
+                    while (linea != null);
+                    fichero.Close();
+
+
+                    /*foreach (var linea in lineas)
+                    {
+                        var valores = linea.Split(",");
+                        idDepartamento = valores[0];
+                        nombreDepartamento = valores[1];
+                        departamentos[contador] = new Departamento(idDepartamento, nombreDepartamento);
+                        contador++;
+                    }*/
+                }
+
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+
+            }
+            return departamentos;
+        }
+
+        public void GuardarDepartamento(Departamento d)
+        {
+            string directorio = @".\Archivos";
+
+            if (Directory.Exists(directorio))
+            {
+                try
+                {
+                    StreamWriter fichero = new StreamWriter(@".\Archivos\Guardar.txt", true);
+                    
+                        fichero.WriteLine(d.Id + "," + d.Nombre);
+                    
+                    fichero.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: " + e.Message);
+                }
+            }
+               
+        }
+
+
 
         public override string ToString()
         {

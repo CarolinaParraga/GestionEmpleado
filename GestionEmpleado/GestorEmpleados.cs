@@ -13,6 +13,7 @@ namespace GestionEmpleado
         public void Ejecutar()
         {
             List<Empleado> empleados = Cargar();
+     
             bool salir = false;
             //List<Empleado> empleados = new List<Empleado>();
 
@@ -34,7 +35,7 @@ namespace GestionEmpleado
 
 
 
-            nuevaEmpresa.Departamentos[0] = new Departamento("D-1", "Contabilidad");
+            /*nuevaEmpresa.Departamentos[0] = new Departamento("D-1", "Contabilidad");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[0]);
             nuevaEmpresa.Departamentos[1] = new Departamento("D-2", "Ventas");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[1]);
@@ -43,7 +44,7 @@ namespace GestionEmpleado
             nuevaEmpresa.Departamentos[3] = new Departamento("D-4", "Marketing");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[3]);
             nuevaEmpresa.Departamentos[4] = new Departamento("D-5", "Administración");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[4]);
+            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[4]);*/
             //nuevaEmpresa.MostrarDepartamentos();
             
 
@@ -247,6 +248,7 @@ namespace GestionEmpleado
                         if (nuevaEmpresa.NuevoDepartamento(d))
                         {
                             Console.WriteLine("    El departamento se ha añadido correctamente a la empresa");
+                            nuevaEmpresa.GuardarDepartamento(d);
 
                         }
                         else
@@ -261,6 +263,7 @@ namespace GestionEmpleado
 
                 Console.WriteLine("    ERROR: El código de departemento no es correcto.");
             }
+            
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
 
