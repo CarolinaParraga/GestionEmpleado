@@ -18,7 +18,37 @@ namespace GestionEmpleado
             //List<Empleado> empleados = new List<Empleado>();
 
             Empresa nuevaEmpresa = new Empresa("Inmobiliaria Vistas al Mar", "B76365789");
+            string[] lineas = nuevaEmpresa.CargarDepartamentos();
+            string id;
+            string nombre;
+            Departamento d;
+            try
+            {
+                foreach (var linea in lineas)
+                {
+                    if(linea != null)
+                    {
+                        string[] datoslinea = linea.Split(",");
+                        //Console.WriteLine(datoslinea[0]);
+                        //Console.WriteLine(datoslinea[1]);
+                        id = datoslinea[0];
+                        nombre = datoslinea[1];
+                        //Console.WriteLine(id);
+                        //Console.WriteLine(nombre);
+                        d = new Departamento(id, nombre);
+                        if (nuevaEmpresa.NuevoDepartamento(d))
+                        {
+                            Console.Write("");
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("El archivo está vacio");
+            }
             
+
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("    Bienvenido al gestor de empleados de: ");
@@ -93,7 +123,8 @@ namespace GestionEmpleado
 
             } while (!salir);
             
-            Guardar(empleados); 
+            Guardar(empleados);
+            nuevaEmpresa.GuardarDepartamentos();
             Console.ForegroundColor = ConsoleColor.Red;
             WriteAt("Hasta la próxima!!!!!!!", 40, 16);
             Console.ResetColor();
@@ -171,30 +202,30 @@ namespace GestionEmpleado
                     int auxiliar = Convert.ToInt32(fichero.ReadLine());
                     string separador = fichero.ReadLine();
 
-                if (auxiliar >= 50)
-                {
-                    empleados.Add(new Comercial(dni, nombre, edad, estado,sueldo, categoria, d, auxiliar));
-                }
-                else if (auxiliar < 50 && auxiliar > 0)
-                {
-                    empleados.Add(new JefeDepartamento(dni, nombre, edad, estado, sueldo, categoria, d, auxiliar));
-                }
+                    if (auxiliar >= 50)
+                    {
+                        empleados.Add(new Comercial(dni, nombre, edad, estado,sueldo, categoria, d, auxiliar));
+                    }
+                    else if (auxiliar < 50 && auxiliar > 0)
+                    {
+                        empleados.Add(new JefeDepartamento(dni, nombre, edad, estado, sueldo, categoria, d, auxiliar));
+                    }
 
-                else
-                {
-                    empleados.Add(new Empleado(dni, nombre, edad, estado, sueldo, categoria, d));
-                }
+                    else
+                    {
+                        empleados.Add(new Empleado(dni, nombre, edad, estado, sueldo, categoria, d));
+                    }
 
-            }
-                fichero.Close();
-            }
+                }
+                    fichero.Close();
+                }
             
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e.Message);
-            }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
 
-            return empleados;
+                return empleados;
         }
 
         private void MostrarMenu()
@@ -248,7 +279,7 @@ namespace GestionEmpleado
                         if (nuevaEmpresa.NuevoDepartamento(d))
                         {
                             Console.WriteLine("    El departamento se ha añadido correctamente a la empresa");
-                            nuevaEmpresa.GuardarDepartamento(d);
+                            //nuevaEmpresa.GuardarDepartamento(d);
 
                         }
                         else
@@ -263,7 +294,7 @@ namespace GestionEmpleado
 
                 Console.WriteLine("    ERROR: El código de departemento no es correcto.");
             }
-            
+            nuevaEmpresa.GuardarDepartamentos();
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
 
@@ -311,6 +342,7 @@ namespace GestionEmpleado
                 Console.WriteLine("    ERROR: {0} \n    El código de departemento no es correcto ",
                      e.Message);
             }
+            nuevaEmpresa.GuardarDepartamentos();
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
         }
