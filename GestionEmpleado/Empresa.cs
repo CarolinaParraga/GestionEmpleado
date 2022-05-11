@@ -127,51 +127,9 @@ namespace GestionEmpleado
             return resultado;
         }
 
-        public string[] CargarDepartamentos()
-        {
-            string[] lineas = new string[MAXIMO_DEPARTAMENTOS];
-            try
-            {
-                if (File.Exists(@".\Archivos\Guardar.txt"))
-                {
-                    lineas = File.ReadAllLines(@".\Archivos\Guardar.txt");
-                }
-                else
-                {
-                    Console.WriteLine("IMPORTANTE: no hay departamentos creados.");
-                }
-               
-            }
-            catch (Exception e)
-            {
-                Console.Write("Error: {0}", e.Message);
-            }
-             
-            return lineas;
 
-
-            /*foreach (var linea in lineas)
-            {
-                string[] datoslinea = linea.Split(",");
-                //Console.WriteLine(datoslinea[0]);
-                //Console.WriteLine(datoslinea[1]);
-                id = datoslinea[0];
-                nombre = datoslinea[1];
-                //Console.WriteLine(id);
-                //Console.WriteLine(nombre);
-                departamentos[contador] = new Departamento(id, nombre);
-                contador++;
-            }
-            
-            foreach (var item in departamentos)
-            {
-                Console.WriteLine(item);
-            }*/
-            
-
-        }
-
-        public void GuardarDepartamento(Departamento d)
+        //método para guardar en un archivo los datos de los departamentos
+        public void GuardarDepartamentos()
         {
             string directorio = @".\Archivos";
 
@@ -180,9 +138,10 @@ namespace GestionEmpleado
                 try
                 {
                     StreamWriter fichero = new StreamWriter(@".\Archivos\Guardar.txt");
-                    
-                        fichero.WriteLine(d.Id + "," + d.Nombre);
-                    
+                    for (int i = 0; i < contadorDepartamentos; i++)
+                    {
+                        fichero.WriteLine(departamentos[i].ToString());
+                    }
                     fichero.Close();
                 }
                 catch (Exception e)
@@ -195,27 +154,13 @@ namespace GestionEmpleado
             FileInfo[] infoFicheros = dir.GetFiles();
             foreach (FileInfo infoUnFich in infoFicheros)
             {
-                Console.WriteLine("    Guardado en fichero: {0}, de tamaño {1}, creado {2}",
+                Console.WriteLine("    Datos guardados en fichero: " +
+                    "{0}, de tamaño {1}, creado {2}",
                 infoUnFich.Name,
                 infoUnFich.Length,
                 infoUnFich.CreationTime);
             }
-
-
         }
-
-        public void GuardarDepartamentos()
-        {
-            StreamWriter fichero = new StreamWriter(@".\Archivos\Guardar.txt");
-            for (int i = 0; i < contadorDepartamentos; i++)
-            {
-                fichero.WriteLine(departamentos[i].ToString());
-            }
-            fichero.Close();
-        }
-
-
-
         public override string ToString()
         {
             
