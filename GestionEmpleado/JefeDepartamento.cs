@@ -35,23 +35,26 @@ namespace GestionEmpleado
             this.plus = 100;
         }
 
-        public void CalcularPlus()
+        public int CalcularPlus(int antiguedad)
         {
+            int plus = 100;
             if (Antiguedad > 5 && Antiguedad <= 10)
             {
-                Plus = 150;
+                plus = 150;
             }
             else if (Antiguedad > 10)
             {
-                Plus = 200;
+                plus = 200;
             }
+
+            return plus;
         }
 
-        public override float CalcularNomina()
+        public override float CalcularNomina( int dato)
         {
             float resultado;
             float impuestos;
-            float sueldoTotal = Sueldo + Plus;
+            float sueldoTotal = Sueldo + dato;
 
 
             if (sueldoTotal >= 20000)

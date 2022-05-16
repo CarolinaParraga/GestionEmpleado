@@ -39,10 +39,11 @@ namespace GestionEmpleado
         public string Categoria { get => categoria; set => categoria = value; }
         public Departamento UnDepartamento { get => unDepartamento; set => unDepartamento = value; }
 
-        public virtual float CalcularNomina()
+        public virtual float CalcularNomina(int dato)
         {
             float resultado;
             float impuestos;
+            
             if (Sueldo >= 20000)
             {
                 impuestos = Sueldo * 0.25f;
@@ -61,7 +62,7 @@ namespace GestionEmpleado
                 impuestos = 0;
             }
 
-            resultado = (Sueldo + impuestos)/14;
+            resultado = (Sueldo + impuestos + dato)/14;
 
             return resultado;
         }

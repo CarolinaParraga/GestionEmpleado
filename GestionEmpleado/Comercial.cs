@@ -33,24 +33,26 @@ namespace GestionEmpleado
             }
         }
         
-        public void CalcularComision()
+        public int CalcularComision(int ventas)
         {
+            int comision = 0;
             if (Ventas >= 80)
             {
-                Comision = 250;
+                comision = 250;
             }
             else if (Ventas >= 50 && Ventas < 80 )
             {
-                Comision = 100;
+                comision = 100;
             }
+            return comision;
 
         }
 
-        public override float CalcularNomina()
+        public override float CalcularNomina(int dato)
         {
             float resultado;
             float impuestos;
-            float sueldoTotal = Sueldo + Comision;
+            float sueldoTotal = Sueldo + dato;
 
 
             if (sueldoTotal >= 20000)
