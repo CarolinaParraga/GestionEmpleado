@@ -33,9 +33,6 @@ namespace GestionEmpleado
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
           
-
-
-
             /*nuevaEmpresa.Departamentos[0] = new Departamento("D-1", "Contabilidad");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[0]);
             nuevaEmpresa.Departamentos[1] = new Departamento("D-2", "Ventas");
@@ -46,11 +43,7 @@ namespace GestionEmpleado
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[3]);
             nuevaEmpresa.Departamentos[4] = new Departamento("D-5", "Administración");
             nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[4]);*/
-            //nuevaEmpresa.MostrarDepartamentos();
-            
-
-
-
+    
             do
             {
                 
@@ -88,6 +81,7 @@ namespace GestionEmpleado
                         MostrarNomina(empleados);
                         break;
                     case "0":
+                        Console.Clear();
                         salir = true;
                         break;
                 }
@@ -97,7 +91,10 @@ namespace GestionEmpleado
             Guardar(empleados);
             nuevaEmpresa.GuardarDepartamentos();
             Console.ForegroundColor = ConsoleColor.Red;
-            WriteAt("Hasta la próxima!!!!!!!", 40, 16);
+            WriteAt("Hasta la próxima!!!!!!!", 40, 5);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.ResetColor();
 
         }
@@ -189,6 +186,21 @@ namespace GestionEmpleado
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
+            }
+            string directorio = @".\";
+            string texto = "empleados.txt";
+            DirectoryInfo dir = new DirectoryInfo(directorio);
+            FileInfo[] infoFicheros = dir.GetFiles();
+            foreach (FileInfo infoUnFich in infoFicheros)
+            {
+                if (infoUnFich.Name == texto)
+                {
+                    Console.WriteLine("    Datos de empleados guardados en el archivo: " +
+                    "{0}, de tamaño {1}, creado {2}",
+                infoUnFich.Name,
+                infoUnFich.Length,
+                infoUnFich.CreationTime);
+                }
             }
         }
 
@@ -296,9 +308,12 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    AÑADIR DEPARTAMENTO");
-            
-      
+            Console.ResetColor();
+            Console.WriteLine();
+
+
             string id;
             string nombre;
             Departamento d;
@@ -341,7 +356,10 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    ELIMINAR DEPARTAMENTO");
+            Console.ResetColor();
+            Console.WriteLine();
             Console.WriteLine("    Introduzca los datos del departamente que quiere eliminar.");
             Console.WriteLine();
             nuevaEmpresa.MostrarDepartamentos();
@@ -388,7 +406,10 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    AÑADIR EMPLEADO");
+            Console.ResetColor();
+            Console.WriteLine();
             Empleado aux;//para crear un empleado
             Departamento d;//para asociar al departemento
             bool dniOK;
@@ -485,7 +506,9 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("    MOSTRAR DATOS DE EMPLEADO:");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("    MOSTRAR DATOS DE EMPLEADOS:");
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine();
 
@@ -519,18 +542,38 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    BUSCAR EMPLEADO");
+            Console.ResetColor();
+            Console.WriteLine();
             if (empleados.Count > 0)
             {
                 bool encontrado = false;
                 string textoBuscar = PedirCadenaNoVacia("texto de busqueda: ").ToLower();
+                int opcion = PedirEntero("opción, 1-Buscar por nombre, " +
+                    "2-Buscar por departamento: ", 1, 2);
+           
 
                 for (int i = 0; i < empleados.Count; i++)
                 {
-                    if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
+                    if (opcion == 1)
                     {
-                        Console.WriteLine((i + 1) + "." + empleados[i]);
-                        encontrado = true;
+                        if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
+                            encontrado = true;
+                        }
+                    }
+                    else
+                    {
+                        if (empleados[i].UnDepartamento.Nombre.
+                            ToLower().Contains(textoBuscar))
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("    " +(i + 1) + "." + empleados[i]);
+                            encontrado = true;
+                        }
                     }
                 }
                 if (!encontrado)
@@ -552,76 +595,96 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    MODIFICAR EMPLEADO");
-            Buscar(empleados);
+            Console.ResetColor();
+            Console.WriteLine();
+           
 
             if (empleados.Count > 0)
             {
-                int tamanyo = empleados.Count;
-                int registro = PedirEntero("registro a modificar: ", 1, tamanyo) - 1;
-                if (registro >= 0 && registro < empleados.Count)
+                bool encontrado = false;
+                string textoBuscar = PedirCadenaNoVacia("nombre de empleado: ").ToLower();
+                for (int i = 0; i < empleados.Count; i++)
                 {
-                    Console.WriteLine("    DNI: " + empleados[registro].Dni);
-                    string dni = PedirDato("dni o intro para continuar: ");
-                    if (dni != "")
+                    if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
                     {
-                        empleados[registro].Dni = dni;
-                    }
-                  
-                    Console.WriteLine("    Nombre: " + empleados[registro].Nombre);
-                    string nombre = PedirDato("nombre o intro para continuar: ");
-                    if (nombre != "")
-                    {
-                        empleados[registro].Nombre = nombre;
-                    }
-                    Console.WriteLine("    Edad: " + empleados[registro].Edad);
-                    int  edad = PedirEntero("edad:", 18, 99);
-                    if (edad > 17 && edad < 100)
-                    {
-                        empleados[registro].Edad =  edad;
-                    }
-                    Console.WriteLine("    Estado: " + empleados[registro].Estado);
-                    string estado = PedirDato("estado o intro para continuar: ");
-                    if (estado != "")
-                    {
-                        empleados[registro].Estado = estado;
-                    }
-                    Console.WriteLine("    Departamento: " + empleados[registro].UnDepartamento);
-                    string id = PedirDato("id del Departamento o intro para continuar: ");
-                    if (id != "")
-                    {
-                        empleados[registro].UnDepartamento.Id = id;
-                    }
-                    string nombreDepartamento = PedirDato("nombre del Departamento o intro para continuar: ");
-                    if (nombreDepartamento != "")
-                    {
-                        empleados[registro].UnDepartamento.Nombre = nombreDepartamento;
-                    }
-           
-                    if (empleados[registro].GetType() == typeof(Comercial))
-                    {
-                        Console.WriteLine("    Ventas: " + ((Comercial)empleados[registro]).Ventas);
-                        int ventas = PedirEntero("ventas", 50, 100);
+                        Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
+                        encontrado = true;
+                        int registro = i;
+                        if (registro >= 0 && registro < empleados.Count)
+                        {
+                            Console.WriteLine("    DNI: " + empleados[registro].Dni);
+                            string dni = PedirDato("dni o intro para continuar: ");
+                            if (dni != "")
+                            {
+                                empleados[registro].Dni = dni;
+                            }
 
-                        if (ventas < 101 && ventas > 49)
-                        {
-                            ((Comercial)empleados[registro]).Ventas = ventas;
+                            Console.WriteLine("    Nombre: " + empleados[registro].Nombre);
+                            string nombre = PedirDato("nombre o intro para continuar: ");
+                            if (nombre != "")
+                            {
+                                empleados[registro].Nombre = nombre;
+                            }
+                            Console.WriteLine("    Edad: " + empleados[registro].Edad);
+                            int edad = PedirEntero("edad:", 18, 99);
+                            if (edad > 17 && edad < 100)
+                            {
+                                empleados[registro].Edad = edad;
+                            }
+                            Console.WriteLine("    Estado: " + empleados[registro].Estado);
+                            string estado = PedirDato("estado o intro para continuar: ");
+                            if (estado != "")
+                            {
+                                empleados[registro].Estado = estado;
+                            }
+                            Console.WriteLine("    Departamento: " + empleados[registro].UnDepartamento);
+                            string id = PedirDato("id del Departamento o intro para continuar: ");
+                            if (id != "")
+                            {
+                                empleados[registro].UnDepartamento.Id = id;
+                            }
+                            string nombreDepartamento = PedirDato("nombre del Departamento o intro para continuar: ");
+                            if (nombreDepartamento != "")
+                            {
+                                empleados[registro].UnDepartamento.Nombre = nombreDepartamento;
+                            }
+
+                            if (empleados[registro].GetType() == typeof(Comercial))
+                            {
+                                Console.WriteLine("    Ventas: " + ((Comercial)empleados[registro]).Ventas);
+                                int ventas = PedirEntero("ventas: ", 50, 100);
+
+                                if (ventas < 101 && ventas > 49)
+                                {
+                                    ((Comercial)empleados[registro]).Ventas = ventas;
+                                }
+                            }
+                            if (empleados[registro] is JefeDepartamento)
+                            {
+                                Console.WriteLine("    Antigüedad: " + ((JefeDepartamento)empleados[registro]).Antiguedad);
+                                int antiguedad = PedirEntero("antigüedad: ", 0, 49);
+                                if (antiguedad < 50 && antiguedad > -1)
+                                {
+                                    ((JefeDepartamento)empleados[registro]).Antiguedad = antiguedad;
+                                }
+                            }
+
+                            Console.WriteLine("    Registro modificado.Pulse enter para continuar.");
+                            Console.ReadLine();
                         }
-                    }
-                    if (empleados[registro] is JefeDepartamento)
-                    {
-                        Console.WriteLine("    Antigüedad: " + ((JefeDepartamento)empleados[registro]).Antiguedad);
-                        int antiguedad = PedirEntero("antigüedad: ", 0, 49);
-                        if (antiguedad < 50 && antiguedad > -1)
+                        else
                         {
-                            ((JefeDepartamento)empleados[registro]).Antiguedad = antiguedad;
+                            Console.WriteLine("    El registro introducido no es correcto");
                         }
                     }
                 }
-                else
+                if (!encontrado)
                 {
-                    AvisarRegistroIncorrecto();
+                    Console.WriteLine("    No se ha encontrado coincidencia");
                 }
+
             }
             else
             {
@@ -638,33 +701,49 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    ELIMINAR EMPLEADO");
-            Buscar(empleados);
+            Console.ResetColor();
+            Console.WriteLine();
+            
 
             if (empleados.Count > 0)
             {
-                int tamanyo = empleados.Count;
-                int registro = PedirEntero("registro a modificar: ", 1, tamanyo) - 1;
-                if (registro >= 0 && registro < empleados.Count)
+                bool encontrado = false;
+                string textoBuscar = PedirCadenaNoVacia("nombre de empleado: ").ToLower();
+                for (int i = 0; i < empleados.Count; i++)
                 {
-                    Console.WriteLine(empleados[registro]);
-                    string confirmacion = PedirDato("(s) para confirmar, " +
-                        "intro para cancelar: ").ToLower();
-                    if (confirmacion == "s")
+                    if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
                     {
-                        empleados.RemoveAt(registro);
-                        
-                        Console.WriteLine("    Registro eliminado");
-                    }
-                    else
-                    {
-                        Console.WriteLine("    Borrado cancelado");
+                        Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
+                        encontrado = true;
+                        int registro = i;
+                        if (registro >= 0 && registro < empleados.Count)
+                        {
+                            string confirmacion = PedirDato("(s) para confirmar, " +
+                                "intro para cancelar: ").ToLower();
+                            if (confirmacion == "s")
+                            {
+                                empleados.RemoveAt(registro);
+
+                                Console.WriteLine("    Registro eliminado");
+                            }
+                            else
+                            {
+                                Console.WriteLine("    Borrado cancelado");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("    El registro introducido no es correcto.");
+                        }
                     }
                 }
-                else
+                if (!encontrado)
                 {
-                    AvisarRegistroIncorrecto();
+                    Console.WriteLine("    No se ha encontrado coincidencia");
                 }
+
             }
             else
             {
@@ -681,11 +760,29 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    ORDENAR EMPLEADOS");
+            Console.ResetColor();
+            Console.WriteLine();
             if (empleados.Count > 0)
             {
                 empleados.Sort();
-                Console.WriteLine("    Lista ordenada");
+                Console.WriteLine("    Lista ordenada por nombre");
+               
+                for (int i = 0; i < empleados.Count; i++)
+                {
+                    Console.WriteLine("    " + (i + 1) + ". Nombre: " + empleados[i].Nombre
+                        + ", Departamento: " + empleados[i].UnDepartamento);
+                    if (i % 24 == 23)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine("    Pulsa intro para continuar");
+                        Console.ReadLine();
+                    }
+                }
+                
+
             }
             else
             {
@@ -701,14 +798,17 @@ namespace GestionEmpleado
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("    MOSTRAR NÓMINA DE EMPLEADO");
+            Console.ResetColor();
+            Console.WriteLine();
             DateTime hoy = DateTime.Now;
             DateTime mesAnterior = hoy.AddMonths(-1);
             if (empleados.Count > 0)
             {
                 float totalNomina;
                 bool encontrado = false;
-                string textoBuscar = PedirCadenaNoVacia("texto de busqueda: ").ToLower();
+                string textoBuscar = PedirCadenaNoVacia("nombre de busqueda: ").ToLower();
 
                 for (int i = 0; i < empleados.Count; i++)
                 {
@@ -750,11 +850,6 @@ namespace GestionEmpleado
         private void AvisarOpcionIncorrecta()
         {
             Console.WriteLine("    Opción incorrecta");
-        }
-
-        private void AvisarRegistroIncorrecto()
-        {
-            Console.WriteLine("    Número de reguistro incorrecto");
         }
 
         private int PedirEntero(string mensaje, int minimo, int maximo)

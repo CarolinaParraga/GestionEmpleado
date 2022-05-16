@@ -154,7 +154,7 @@ namespace GestionEmpleado
             FileInfo[] infoFicheros = dir.GetFiles();
             foreach (FileInfo infoUnFich in infoFicheros)
             {
-                Console.WriteLine("    Datos guardados en fichero: " +
+                Console.WriteLine("    Datos de departamentos guardados en fichero: " +
                     "{0}, de tamaño {1}, creado {2}",
                 infoUnFich.Name,
                 infoUnFich.Length,
