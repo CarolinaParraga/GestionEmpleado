@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
+    //clase que almacena los datos de un empleado genérico
     class Empleado : Persona
     {
         private float sueldo;
@@ -22,8 +23,6 @@ namespace GestionEmpleado
             this.unDepartamento = d;
         }
 
-        //public float Sueldo { get => sueldo; set => sueldo = value; }
-
         public float Sueldo
         {
             get { return sueldo; }
@@ -39,6 +38,7 @@ namespace GestionEmpleado
         public string Categoria { get => categoria; set => categoria = value; }
         public Departamento UnDepartamento { get => unDepartamento; set => unDepartamento = value; }
 
+        //método para calcular la nómina del empleado
         public virtual float CalcularNomina(int dato)
         {
             float resultado;
@@ -67,6 +67,7 @@ namespace GestionEmpleado
             return resultado;
         }
 
+        //redefine método contiene
         public override bool Contiene(string texto)
         {
             if (base.Contiene(texto) ||

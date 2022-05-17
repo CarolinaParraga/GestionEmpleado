@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
+    //clase que almacena los datos de una persona genérica
      abstract class Persona: IComparable<Empleado>
     {
         protected string dni;
@@ -70,6 +71,7 @@ namespace GestionEmpleado
                 + nombre + "\n    " + edad + "\n    " + estado + "\n    ";
         }
 
+        //método para saber si la lista contiene nombre o dni
         public virtual bool Contiene(string texto)
         {
             if (Nombre.ToLower().Contains(texto.ToLower()) ||
@@ -83,6 +85,7 @@ namespace GestionEmpleado
             }
         }
 
+        //método para ordenar la lista por nombre
         public int CompareTo(Empleado other)
         {
             return String.Compare(Nombre, other.Nombre, true);

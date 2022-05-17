@@ -14,9 +14,6 @@
       <HashCode>QAAAAAAAAAAAAAAkAAAAIAAAAAAAAIAAAACBQAAAAEA=</HashCode>
       <FileName>Empleado.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="unDepartamento" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="GestionEmpleado.Comercial">
     <Position X="7.5" Y="9" Width="1.5" />
@@ -52,26 +49,29 @@
       <Field Name="departamentos" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="GestionEmpleado.Departamento">
-    <Position X="3.25" Y="7" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAACEAAAAgAAIAAAACAAAAAAAAAAAAgA=</HashCode>
-      <FileName>Departamento.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="GestionEmpleado.GestorEmpleados">
-    <Position X="2.5" Y="1.25" Width="1.5" />
+  <Class Name="GestionEmpleado.GestorEmpleados" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IIAAAAAAAAQAAAAECBBEIgAAAABBABgAAAgABIAQBQQ=</HashCode>
       <FileName>GestorEmpleados.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GestionEmpleado.Program">
-    <Position X="4.5" Y="0.5" Width="1.5" />
+  <Class Name="GestionEmpleado.Program" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="GestionEmpleado.Departamento">
+    <Position X="3.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAACEAAAAgAAIAAAACAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Departamento.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="unaEmpresa" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

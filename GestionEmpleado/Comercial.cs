@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
+    //almacena los datos del tipo empleado comercial
     class Comercial: Empleado
     {
         private float comision;
@@ -33,14 +34,15 @@ namespace GestionEmpleado
             }
         }
         
+        //método para calcular la comisión del comercial
         public int CalcularComision(int ventas)
         {
             int comision = 0;
-            if (Ventas >= 80)
+            if (ventas >= 80)
             {
                 comision = 250;
             }
-            else if (Ventas >= 50 && Ventas < 80 )
+            else if (ventas >= 50 && ventas < 80 )
             {
                 comision = 100;
             }
@@ -48,6 +50,7 @@ namespace GestionEmpleado
 
         }
 
+        //redefine método para calcular nómina
         public override float CalcularNomina(int dato)
         {
             float resultado;

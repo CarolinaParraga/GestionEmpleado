@@ -47,6 +47,7 @@ namespace GestionEmpleado
 
         }
 
+        //método para añadir un nuevo departamento a la empresa
         public bool NuevoDepartamento(Departamento d)
         {
             bool resultado = false;
@@ -62,7 +63,7 @@ namespace GestionEmpleado
             return resultado;
         }
 
-
+        //método para eliminar un departamento
         public bool QuitarDepartamento(Departamento d)
         {
             bool encontrado = false;
@@ -91,6 +92,7 @@ namespace GestionEmpleado
             return encontrado;
         }
 
+        //método para mostrar los departamentos de la empresa
         public void MostrarDepartamentos()
         {
             for (int i = 0; i < contadorDepartamentos; i++)

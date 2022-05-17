@@ -9,17 +9,23 @@ namespace GestionEmpleado
 {
     class GestorEmpleados
     {
+        //clase que almacena la funcionalidad de la aplicación
 
+        //método para ejecutar la funcionalidad de la aplicación
         public void Ejecutar()
         {
+            //se cargan los datos de los empleados desde el archivo
             List<Empleado> empleados = Cargar();
      
-            bool salir = false;
-            //List<Empleado> empleados = new List<Empleado>();
-
+            //se inicializa los datos de la empresa
             Empresa nuevaEmpresa = new Empresa("Inmobiliaria Vistas al Mar", "B76365789");
+
+            //se cargan los datos de los departamentos desde el archivo
             CargarDepartamentos(nuevaEmpresa);
-            
+
+            bool salir = false;
+
+            //pantalla principal
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("    Bienvenido al gestor de empleados de: ");
@@ -33,23 +39,11 @@ namespace GestionEmpleado
             Console.Write("    Pulse enter para continuar");
             Console.ReadLine();
           
-            /*nuevaEmpresa.Departamentos[0] = new Departamento("D-1", "Contabilidad");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[0]);
-            nuevaEmpresa.Departamentos[1] = new Departamento("D-2", "Ventas");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[1]);
-            nuevaEmpresa.Departamentos[2] = new Departamento("D-3", "Alquileres");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[2]);
-            nuevaEmpresa.Departamentos[3] = new Departamento("D-4", "Marketing");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[3]);
-            nuevaEmpresa.Departamentos[4] = new Departamento("D-5", "Administración");
-            nuevaEmpresa.NuevoDepartamento(nuevaEmpresa.Departamentos[4]);*/
-    
+            //muetra submenú según la opción elegida hasta que seleccione salir
             do
-            {
-                
+            {   
                 MostrarMenu();
                 
-
                 string opcion = Console.ReadLine().ToUpper();
                 switch (opcion)
                 {
@@ -88,6 +82,7 @@ namespace GestionEmpleado
 
             } while (!salir);
             
+            //al salir se guardan datos de empleados y departamentos en los archivos correspondientes
             Guardar(empleados);
             nuevaEmpresa.GuardarDepartamentos();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -99,6 +94,7 @@ namespace GestionEmpleado
 
         }
 
+        //lee los datos de los departamentos guardados en el archivo
         private string[] CargarDepartamentos(Empresa nuevaEmpresa)
         {
             string[] lineas = new string[Empresa.MAXIMO_DEPARTAMENTOS];
@@ -149,6 +145,7 @@ namespace GestionEmpleado
             return lineas;
         }
 
+        //guarda los datos de los empleados en el archivo
         private void Guardar(List<Empleado> empleados)
         {
             try
@@ -204,6 +201,7 @@ namespace GestionEmpleado
             }
         }
 
+        //método para leer daos de empleados desde archivo
         private List<Empleado> Cargar()
         {
             List<Empleado> empleados = new List<Empleado>();
@@ -400,6 +398,7 @@ namespace GestionEmpleado
             Console.ReadLine();
         }
 
+        //método para añadir empleados
         private void AnyadirEmpleado(List<Empleado> empleados, Empresa nuevaEmpresa)
         {
             Console.Clear();
@@ -480,14 +479,14 @@ namespace GestionEmpleado
             }
             else if (tipoEmpleado == "c")
             {
-                int ventas = PedirEntero("ventas: ", 50, 100);
+                int ventas = PedirEntero("ventas (entre 50 y 100): ", 50, 100);
                 aux = new Comercial(dni, nombre, edad, estado,
                    sueldo, categoria, d, ventas);
                 empleados.Add(aux);
             }
             else
             {
-                int antiguedad = PedirEntero("antigüedad: ", 0, 49);
+                int antiguedad = PedirEntero("antigüedad (entre 0 y 49): ", 0, 49);
                 aux = new JefeDepartamento(dni, nombre, edad, estado,
                     sueldo, categoria, d, antiguedad);
                 empleados.Add(aux);
@@ -500,6 +499,7 @@ namespace GestionEmpleado
 
         }
 
+        //muestra los empleados de la empresa
         private void Mostrar(List<Empleado> empleados)
         {
             Console.Clear();
@@ -536,6 +536,7 @@ namespace GestionEmpleado
             Console.ReadLine();
         }
 
+        //método para buscar empleado por nombre o departamento
         private void Buscar(List<Empleado> empleados)
         {
             Console.Clear();
@@ -553,12 +554,11 @@ namespace GestionEmpleado
                 int opcion = PedirEntero("opción, 1-Buscar por nombre, " +
                     "2-Buscar por departamento: ", 1, 2);
            
-
                 for (int i = 0; i < empleados.Count; i++)
                 {
                     if (opcion == 1)
                     {
-                        if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
+                        if (empleados[i].Nombre.ToLower().Equals(textoBuscar))
                         {
                             Console.WriteLine();
                             Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
@@ -568,7 +568,7 @@ namespace GestionEmpleado
                     else
                     {
                         if (empleados[i].UnDepartamento.Nombre.
-                            ToLower().Contains(textoBuscar))
+                            ToLower().Equals(textoBuscar))
                         {
                             Console.WriteLine();
                             Console.WriteLine("    " +(i + 1) + "." + empleados[i]);
@@ -589,6 +589,7 @@ namespace GestionEmpleado
             Console.ReadLine();
         }
 
+        //método para modificar los datos del empleado
         private void Modificar(List<Empleado> empleados)
         {
             Console.Clear();
@@ -607,7 +608,7 @@ namespace GestionEmpleado
                 string textoBuscar = PedirCadenaNoVacia("nombre de empleado: ").ToLower();
                 for (int i = 0; i < empleados.Count; i++)
                 {
-                    if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
+                    if (empleados[i].Nombre.ToLower().Equals(textoBuscar))
                     {
                         Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
                         encontrado = true;
@@ -695,6 +696,7 @@ namespace GestionEmpleado
             Guardar(empleados);
         }
 
+        //método para eliminar un empleado
         private void Eliminar(List<Empleado> empleados)
         {
             Console.Clear();
@@ -713,7 +715,7 @@ namespace GestionEmpleado
                 string textoBuscar = PedirCadenaNoVacia("nombre de empleado: ").ToLower();
                 for (int i = 0; i < empleados.Count; i++)
                 {
-                    if (empleados[i].Nombre.ToLower().Contains(textoBuscar))
+                    if (empleados[i].Nombre.ToLower().Equals(textoBuscar))
                     {
                         Console.WriteLine("    " + (i + 1) + "." + empleados[i]);
                         encontrado = true;
@@ -754,6 +756,7 @@ namespace GestionEmpleado
             Guardar(empleados);
         }
 
+        //ordenar lista por nombre
         private void Ordenar(List<Empleado> empleados)
         {
             Console.Clear();
@@ -792,6 +795,7 @@ namespace GestionEmpleado
             Console.ReadLine();
         }
 
+        //método para calcular la nómina de un empleado
         private void MostrarNomina(List<Empleado> empleados)
         {
             Console.Clear();
@@ -802,28 +806,26 @@ namespace GestionEmpleado
             Console.WriteLine("    MOSTRAR NÓMINA DE EMPLEADO");
             Console.ResetColor();
             Console.WriteLine();
+
             DateTime hoy = DateTime.Now;
             DateTime mesAnterior = hoy.AddMonths(-1);
             if (empleados.Count > 0)
             {
-                float totalNomina;
+                float totalNomina = 0;
                 bool encontrado = false;
                 int dato;
                 string textoBuscar = PedirCadenaNoVacia("nombre de busqueda: ").ToLower();
 
                 for (int i = 0; i < empleados.Count; i++)
                 {
-                    if (empleados[i].Nombre.Contains(textoBuscar))
+                    if (empleados[i].Nombre.Equals(textoBuscar))
                     {
                         if (empleados[i].GetType() == typeof(JefeDepartamento))
                         {
                             int antiguedad = ((JefeDepartamento)empleados[i]).Antiguedad;
                             dato = ((JefeDepartamento)empleados[i]).CalcularPlus(antiguedad);
                             totalNomina = ((JefeDepartamento)empleados[i]).CalcularNomina(dato);
-                            Console.WriteLine("    Nomina de mes de {0}", mesAnterior.ToString("Y"));
-                            Console.WriteLine("    Fecha: {0}", hoy.ToString("d"));
-                            Console.WriteLine("    Empleado: {0}", empleados[i].Nombre);
-                            Console.WriteLine("    Total nómina: {0}", totalNomina.ToString("N2"));
+                            
                             encontrado = true;
                         }
                         else if(empleados[i].GetType() == typeof(Comercial))
@@ -831,23 +833,21 @@ namespace GestionEmpleado
                             int ventas = ((Comercial)empleados[i]).Ventas;
                             dato = ((Comercial)empleados[i]).CalcularComision(ventas);
                             totalNomina = ((Comercial)empleados[i]).CalcularNomina(dato);
-                            Console.WriteLine("    Nomina de mes de {0}", mesAnterior.ToString("Y"));
-                            Console.WriteLine("    Fecha: {0}", hoy.ToString("d"));
-                            Console.WriteLine("    Empleado: {0}", empleados[i].Nombre);
-                            Console.WriteLine("    Total nómina: {0}", totalNomina.ToString("N2"));
+                            
                             encontrado = true;
                         }
                         else
                         {
                             dato = 0;
                             totalNomina = empleados[i].CalcularNomina(dato);
-                            Console.WriteLine("    Nomina de mes de {0}", mesAnterior.ToString("Y"));
-                            Console.WriteLine("    Fecha: {0}", hoy.ToString("d"));
-                            Console.WriteLine("    Empleado: {0}", empleados[i].Nombre);
-                            Console.WriteLine("    Total nómina: {0}", totalNomina.ToString("N2"));
+                            
                             encontrado = true;
                         }
-                        
+                        Console.WriteLine("    Nomina de mes de {0}", mesAnterior.ToString("Y"));
+                        Console.WriteLine("    Fecha: {0}", hoy.ToString("d"));
+                        Console.WriteLine("    Empleado: {0}", empleados[i].Nombre);
+                        Console.WriteLine("    Total nómina: {0}", totalNomina.ToString("N2"));
+
                     }
                 }
                 if (!encontrado)
@@ -863,6 +863,8 @@ namespace GestionEmpleado
             Console.ReadLine();
         }
 
+        //--------------------------------------------------------------------------------
+        //mátodos auxiliares
         private string PedirDato(string mensaje)
         {
             Console.Write("    Introduce " + mensaje);
@@ -942,7 +944,6 @@ namespace GestionEmpleado
         {
             bool repetido = false;
             
-
             for (int i = 0; i < empleados.Count; i++)
             {
                 if (empleados[i].Contiene(buscaDNI))
@@ -960,7 +961,7 @@ namespace GestionEmpleado
             string[] caracteresCodigo = codigo.Split("-");
             int digito = Int32.Parse(caracteresCodigo[1]);
             
-            if (caracteresCodigo[0] == "d" 
+            if (caracteresCodigo[0].ToLower() == "d" 
                 && digito < 10 && digito > 0)
             {
                 codigo_OK = true;

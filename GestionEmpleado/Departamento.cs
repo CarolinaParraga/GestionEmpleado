@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
+    //clase que almacena los datos de los departamentos de la empresa
     class Departamento
     {
         private string id;
         private string nombre;
-        private Empresa unaEmpresa;//asociacion empresa en la que está el departamento
+        private Empresa unaEmpresa;
      
         public string Id { get => id; set => id = value; }
         public string Nombre { get => nombre; set => nombre = value; }

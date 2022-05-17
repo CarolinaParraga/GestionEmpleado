@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionEmpleado
 {
+    //almacena datos de empleado jefe de departamento
     class JefeDepartamento: Empleado
     {
         private int antiguedad;
@@ -35,14 +36,15 @@ namespace GestionEmpleado
             this.plus = 100;
         }
 
+        //método para calcular el plus de jefe de departamento
         public int CalcularPlus(int antiguedad)
         {
             int plus = 100;
-            if (Antiguedad > 5 && Antiguedad <= 10)
+            if (antiguedad > 5 && antiguedad <= 10)
             {
                 plus = 150;
             }
-            else if (Antiguedad > 10)
+            else if (antiguedad > 10)
             {
                 plus = 200;
             }
@@ -50,6 +52,7 @@ namespace GestionEmpleado
             return plus;
         }
 
+        //redefine método para calcular nómina
         public override float CalcularNomina( int dato)
         {
             float resultado;
